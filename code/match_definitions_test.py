@@ -1,4 +1,4 @@
-__author__ = 'pierre'
+# API unit testing
 
 import unittest
 import match_definitions

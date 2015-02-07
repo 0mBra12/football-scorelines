@@ -1,4 +1,4 @@
-# Football match module
+# Actual match API
 
 import json
 import datetime
