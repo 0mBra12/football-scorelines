@@ -208,10 +208,10 @@ class Match:
             self.sides['away'] = Side(matchObject['away'])
 
 
-    def getHomeSide(self):
+    def getHomeSide(self) -> Side:
         return self.sides['home']
 
-    def getAwaySide(self):
+    def getAwaySide(self) -> Side:
         return self.sides['away']
 
     def toShortString(self):
@@ -232,6 +232,3 @@ class Match:
             "Away goals\n" + self.getAwaySide().getGoals() + "\n" \
             "Home team\n" + self.getHomeSide().toTeamString() + "\n" \
             "Away team\n" + self.getAwaySide().toTeamString()
-    
-    def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True)
