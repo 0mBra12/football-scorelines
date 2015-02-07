@@ -1,6 +1,7 @@
 # Football match module
 
 import json
+import datetime
 
 class Minute:
     def __init__(self, minuteObject):
@@ -181,28 +182,13 @@ class Side:
 
         return goalString
 
-class Date:
-    def __init__(self, dateObject):
-        self.day = int(dateObject['day'])
-        self.month = int(dateObject['month'])
-        self.year = int(dateObject['year'])
-
-    def __gt__(self, other):
-        myTime = self.year*365 + self.month*28 + self.day
-        otherTime = other.year*365 + other.month*28 + other.day
-        return myTime > otherTime
-
-    def __eq__(self, other):
-        return self.day == other.day and self.month == other.month and self.year == other.year
-
-    def toString(self):
-        return str(self.day) + "." + str(self.month) + "." + str(self.year)
-
 class Match:
     def __init__(self, matchPath):
         with open(matchPath, 'r', encoding='utf-8') as matchFile:
             matchObject = json.load(matchFile)
-            self.date = Date(matchObject['date'])
+
+            matchDate = matchObject['date']
+            self.date = datetime.date(matchDate['year'], matchDate['month'], matchDate['day'])
             self.sides = dict()
             self.sides['home'] = Side(matchObject['home'])
             self.sides['away'] = Side(matchObject['away'])
