@@ -1,7 +1,8 @@
 # Actual match API
 
+from enum import Enum
 import json
-import datetime
+from datetime import date
 
 class Minute:
     def __init__(self, minuteObject):
@@ -18,33 +19,49 @@ class Minute:
         return str(self.normal) + "'+" + str(self.added) if self.added > 0\
             else str(self.normal) + "'"
 
+class GoalType(Enum):
+    REGULAR = 1
+    PENALTY = 2
+    OWN_GOAL = 3
+
 class Goal:
     def __init__(self, goalObject):
         self.scorer = goalObject['scorer']
-        self.goalType = goalObject['goalType']
+        self.goalType = {
+            "regular": GoalType.REGULAR,
+            "penalty": GoalType.PENALTY,
+            "own goal": GoalType.OWN_GOAL
+        }[goalObject['goalType']]
         self.minute = Minute(goalObject['minute'])
 
     def getScorer(self):
         return self.scorer
 
-    def getGoalType(self):
+    def getType(self):
         return self.goalType
 
-    def getGoalMinute(self):
-        return self.goalType
+    def getMinute(self):
+        return self.minute
 
     def toString(self):
         goalTypeString = {
-            'regular': "Regular",
-            'penalty': "Penalty",
-            'own goal': "Own goal"
+            GoalType.REGULAR: "Regular",
+            GoalType.PENALTY: "Penalty",
+            GoalType.OWN_GOAL: "Own goal"
         }[self.goalType]
 
         return self.minute.toString() + " " + self.scorer + " (" + goalTypeString + ")"
 
+class CardColor(Enum):
+    YELLOW = 1
+    RED = 2
+
 class Card:
     def __init__(self, cardObject):
-        self.color = cardObject['color']
+        self.color = {
+            "yellow": CardColor.YELLOW,
+            'red': CardColor.RED,
+        }[cardObject['color']]
         self.minute = Minute(cardObject['minute'])
 
     def getColor(self):
@@ -68,7 +85,7 @@ class Player:
     def getName(self):
         return self.name
 
-    def getNumber(self):
+    def getShirtNumber(self):
         return self.number
 
     def getCards(self):
@@ -80,22 +97,22 @@ class Player:
         if nbCards == 1:
             card = self.cards[0]
             if card.color == 'red':
-                playerDescription += ", sent off (" + card.minute.toString() + ")"
+                playerDescription += ", sent off (" + card.getMinute().toString() + ")"
             else:
-                playerDescription += ", booked (" + card.minute.toString() + ")"
+                playerDescription += ", booked (" + card.getMinute().toString() + ")"
 
         elif nbCards == 2:
             firstCard = self.cards[0]
-            secondCard = self.card[1]
+            secondCard = self.cards[1]
 
-            playerDescription += ", booked (" + firstCard.minute.toString() +\
-                                 ") then sent off (" + secondCard.minute.toString() + ")";
+            playerDescription += ", booked (" + firstCard.getMinute().toString() +\
+                                 ") then sent off (" + secondCard.getMinute().toString() + ")";
 
         elif nbCards == 3:
             firstCard = self.cards[0]
             secondCard = self.cards[1]
-            playerDescription += ", booked (" + firstCard.minute.toString() +\
-                                 "), booked again and sent off (" + secondCard.minute.toString() + ")";
+            playerDescription += ", booked (" + firstCard.getMinute().toString() +\
+                                 "), booked again and sent off (" + secondCard.getMinute().toString() + ")";
 
         return playerDescription
 
@@ -104,6 +121,12 @@ class Substitution:
     def __init__(self, replacementObject):
         self.replacedName = replacementObject['name']
         self.minute = Minute(replacementObject['minute'])
+
+    def getSubstitutedName(self):
+        return self.replacedName
+
+    def getMinute(self):
+        return self.minute
 
 class Substitute(Player):
     def __init__(self, substituteObject):
@@ -116,8 +139,10 @@ class Substitute(Player):
 
     def toString(self):
         playerDescription = super(Substitute, self).toString()
-        playerDescription += ". Replaced " + self.substitution.replacedName +\
-                             " (" + self.substitution.minute.toString() + ")" if self.substitution is not None else ""
+        if self.substitution is not None:
+            playerDescription += ". Replaced " + self.substitution.replacedName +\
+                             " (" + self.substitution.getMinute().toString() + ")"
+
         return playerDescription
 
 class Side:
@@ -188,11 +213,16 @@ class Match:
             matchObject = json.load(matchFile)
 
             matchDate = matchObject['date']
-            self.date = datetime.date(matchDate['year'], matchDate['month'], matchDate['day'])
+            self.eventDate = date(matchDate['year'], matchDate['month'], matchDate['day'])
             self.sides = dict()
             self.sides['home'] = Side(matchObject['home'])
             self.sides['away'] = Side(matchObject['away'])
 
+    def getDate(self):
+        return self.eventDate
+
+    def getDateString(self):
+        return "%d %b %Y".format(self.eventDate)
 
     def getHomeSide(self) -> Side:
         return self.sides['home']
@@ -201,7 +231,7 @@ class Match:
         return self.sides['away']
 
     def toShortString(self):
-        return self.date.toString() + ": " +\
+        return self.getDateString() + ": " +\
             self.getHomeSide().getName() + " " + str(self.getHomeSide().getFullTimeGoals()) +\
             " - " + str(self.getAwaySide().getFullTimeGoals()) + " " + self.getAwaySide().getName()
 
@@ -210,7 +240,7 @@ class Match:
         awayShots = self.getAwaySide().getShotsWide() + self.getAwaySide().getShotsOnTarget()
 
         return self.toShortString() + "\n" + \
-            "Date : " + self.date.toString() + "\n" + \
+            "Date : " + self.getDateString() + "\n" + \
             "Shots : " + str(homeShots) + " - " + str(awayShots) + "\n" + \
             "Shots on target : " + str(self.getHomeSide().getShotsOnTarget()) + " - " +\
             str(self.getAwaySide().getShotsOnTarget()) + "\n" + "\n" \
