@@ -1,1 +1,223 @@
-{"away": {"fulltimegoals": 0, "goals": [], "lineup": [{"cards": [], "name": "J. Speroni", "number": 1}, {"cards": [], "name": "D. Gabbidon", "number": 19}, {"cards": [{"color": "yellow", "minute": {"added": 0, "normal": 68}}], "name": "D. Delaney", "number": 27}, {"cards": [], "name": "J. Ward", "number": 2}, {"cards": [], "name": "J. Parr", "number": 4}, {"cards": [], "name": "M. Jedinak", "number": 15}, {"cards": [], "name": "K. Dikgacoi", "number": 8}, {"cards": [], "name": "J. Puncheon", "number": 13}, {"cards": [], "name": "Y. Bolasie", "number": 7}, {"cards": [{"color": "yellow", "minute": {"added": 0, "normal": 42}}], "name": "M. Chamakh", "number": 29}, {"cards": [], "name": "C. Jerome", "number": 30}], "name": "Crystal Palace", "shotsontarget": 2, "shotswide": 8, "substitutes": [{"cards": [], "name": "B. Bannan", "number": 46, "replacement": {"minute": {"added": 0, "normal": 57}, "name": "C. Jerome"}}, {"cards": [], "name": "D. Gayle", "number": 16, "replacement": {"minute": {"added": 0, "normal": 82}, "name": "M. Chamakh"}}, {"cards": [], "name": "A. Mariappa", "number": 3, "replacement": null}, {"cards": [], "name": "P. McCarthy", "number": 5, "replacement": null}, {"cards": [], "name": "A. Wilbraham", "number": 18, "replacement": null}, {"cards": [], "name": "A. Gu\u00e9dioura", "number": 31, "replacement": null}, {"cards": [], "name": "W. Hennessey", "number": 26, "replacement": null}]}, "date": {"day": 2, "month": 2, "year": 2014}, "home": {"fulltimegoals": 2, "goals": [{"goalType": "regular", "minute": {"added": 0, "normal": 47}, "scorer": "A. Oxlade-Chamberlain"}, {"goalType": "regular", "minute": {"added": 0, "normal": 73}, "scorer": "A. Oxlade-Chamberlain"}], "lineup": [{"cards": [], "name": "W. Szcz\u0119sny", "number": 1}, {"cards": [{"color": "yellow", "minute": {"added": 0, "normal": 86}}], "name": "P. Mertesacker", "number": 4}, {"cards": [], "name": "B. Sagna", "number": 3}, {"cards": [], "name": "Nacho Monreal", "number": 17}, {"cards": [], "name": "L. Koscielny", "number": 6}, {"cards": [], "name": "M. \u00d6zil", "number": 11}, {"cards": [], "name": "Arteta", "number": 8}, {"cards": [], "name": "Cazorla", "number": 19}, {"cards": [], "name": "L. Podolski", "number": 9}, {"cards": [], "name": "O. Giroud", "number": 12}, {"cards": [], "name": "A. Oxlade-Chamberlain", "number": 15}], "name": "Arsenal", "shotsontarget": 6, "shotswide": 5, "substitutes": [{"cards": [], "name": "T. Rosick\u00fd", "number": 7, "replacement": {"minute": {"added": 0, "normal": 72}, "name": "L. Podolski"}}, {"cards": [], "name": "N. Bendtner", "number": 23, "replacement": {"minute": {"added": 0, "normal": 84}, "name": "O. Giroud"}}, {"cards": [], "name": "K. Gibbs", "number": 28, "replacement": {"minute": {"added": 0, "normal": 84}, "name": "M. \u00d6zil"}}, {"cards": [], "name": "\u0141. Fabia\u0144ski", "number": 21, "replacement": null}, {"cards": [], "name": "C. Jenkinson", "number": 25, "replacement": null}, {"cards": [], "name": "S. Gnabry", "number": 44, "replacement": null}, {"cards": [], "name": "G. Zelalem", "number": 58, "replacement": null}]}}
+{ "away" : { "fulltimegoals" : 0,
+      "goals" : [  ],
+      "lineup" : [ { "cards" : [  ],
+            "name" : "J. Speroni",
+            "number" : 1
+          },
+          { "cards" : [  ],
+            "name" : "D. Gabbidon",
+            "number" : 19
+          },
+          { "cards" : [ { "color" : "yellow",
+                  "minute" : { "added" : 0,
+                      "normal" : 68
+                    }
+                } ],
+            "name" : "D. Delaney",
+            "number" : 27
+          },
+          { "cards" : [  ],
+            "name" : "J. Ward",
+            "number" : 2
+          },
+          { "cards" : [  ],
+            "name" : "J. Parr",
+            "number" : 4
+          },
+          { "cards" : [  ],
+            "name" : "M. Jedinak",
+            "number" : 15
+          },
+          { "cards" : [  ],
+            "name" : "K. Dikgacoi",
+            "number" : 8
+          },
+          { "cards" : [  ],
+            "name" : "J. Puncheon",
+            "number" : 13
+          },
+          { "cards" : [  ],
+            "name" : "Y. Bolasie",
+            "number" : 7
+          },
+          { "cards" : [ { "color" : "yellow",
+                  "minute" : { "added" : 0,
+                      "normal" : 42
+                    }
+                } ],
+            "name" : "M. Chamakh",
+            "number" : 29
+          },
+          { "cards" : [  ],
+            "name" : "C. Jerome",
+            "number" : 30
+          }
+        ],
+      "name" : "Crystal Palace",
+      "shotsontarget" : 2,
+      "shotswide" : 8,
+      "substitutes" : [ { "cards" : [  ],
+            "name" : "B. Bannan",
+            "number" : 46,
+            "replacement" : { "minute" : { "added" : 0,
+                    "normal" : 57
+                  },
+                "name" : "C. Jerome"
+              }
+          },
+          { "cards" : [  ],
+            "name" : "D. Gayle",
+            "number" : 16,
+            "replacement" : { "minute" : { "added" : 0,
+                    "normal" : 82
+                  },
+                "name" : "M. Chamakh"
+              }
+          },
+          { "cards" : [  ],
+            "name" : "A. Mariappa",
+            "number" : 3,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "P. McCarthy",
+            "number" : 5,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "A. Wilbraham",
+            "number" : 18,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "A. Guédioura",
+            "number" : 31,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "W. Hennessey",
+            "number" : 26,
+            "replacement" : null
+          }
+        ]
+    },
+  "date" : { "day" : 2,
+      "month" : 2,
+      "year" : 2014
+    },
+  "home" : { "fulltimegoals" : 2,
+      "goals" : [ { "goalType" : "regular",
+            "minute" : { "added" : 0,
+                "normal" : 47
+              },
+            "scorer" : "A. Oxlade-Chamberlain"
+          },
+          { "goalType" : "regular",
+            "minute" : { "added" : 0,
+                "normal" : 73
+              },
+            "scorer" : "A. Oxlade-Chamberlain"
+          }
+        ],
+      "lineup" : [ { "cards" : [  ],
+            "name" : "W. Szczęsny",
+            "number" : 1
+          },
+          { "cards" : [ { "color" : "yellow",
+                  "minute" : { "added" : 0,
+                      "normal" : 86
+                    }
+                } ],
+            "name" : "P. Mertesacker",
+            "number" : 4
+          },
+          { "cards" : [  ],
+            "name" : "B. Sagna",
+            "number" : 3
+          },
+          { "cards" : [  ],
+            "name" : "Nacho Monreal",
+            "number" : 17
+          },
+          { "cards" : [  ],
+            "name" : "L. Koscielny",
+            "number" : 6
+          },
+          { "cards" : [  ],
+            "name" : "M. Özil",
+            "number" : 11
+          },
+          { "cards" : [  ],
+            "name" : "Arteta",
+            "number" : 8
+          },
+          { "cards" : [  ],
+            "name" : "Cazorla",
+            "number" : 19
+          },
+          { "cards" : [  ],
+            "name" : "L. Podolski",
+            "number" : 9
+          },
+          { "cards" : [  ],
+            "name" : "O. Giroud",
+            "number" : 12
+          },
+          { "cards" : [  ],
+            "name" : "A. Oxlade-Chamberlain",
+            "number" : 15
+          }
+        ],
+      "name" : "Arsenal",
+      "shotsontarget" : 6,
+      "shotswide" : 5,
+      "substitutes" : [ { "cards" : [  ],
+            "name" : "T. Rosický",
+            "number" : 7,
+            "replacement" : { "minute" : { "added" : 0,
+                    "normal" : 72
+                  },
+                "name" : "L. Podolski"
+              }
+          },
+          { "cards" : [  ],
+            "name" : "N. Bendtner",
+            "number" : 23,
+            "replacement" : { "minute" : { "added" : 0,
+                    "normal" : 84
+                  },
+                "name" : "O. Giroud"
+              }
+          },
+          { "cards" : [  ],
+            "name" : "K. Gibbs",
+            "number" : 28,
+            "replacement" : { "minute" : { "added" : 0,
+                    "normal" : 84
+                  },
+                "name" : "M. Özil"
+              }
+          },
+          { "cards" : [  ],
+            "name" : "Ł. Fabiański",
+            "number" : 21,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "C. Jenkinson",
+            "number" : 25,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "S. Gnabry",
+            "number" : 44,
+            "replacement" : null
+          },
+          { "cards" : [  ],
+            "name" : "G. Zelalem",
+            "number" : 58,
+            "replacement" : null
+          }
+        ]
+    }
+}
