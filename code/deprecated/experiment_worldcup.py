@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import match_utils
 import experiment_utils
 
 

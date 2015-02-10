@@ -2,13 +2,9 @@
 
 import numpy
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
 import scipy.cluster.vq as clustering
 
-import match_definitions
 import experiment_utils
-import match_utils
 
 
 def getDataOfIndex(obsList, index):

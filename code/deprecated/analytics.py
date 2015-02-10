@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import sys
-import match_definitions
+
+from api import match_definitions
+
 
 args = list(sys.argv)
 args.pop(0)

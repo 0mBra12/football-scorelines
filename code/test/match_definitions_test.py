@@ -1,7 +1,9 @@
 # API unit testing
 
 import unittest
-import match_definitions
+
+from api import match_definitions
+
 
 class MatchDefinitionTestCase(unittest.TestCase):
     def test_something(self):

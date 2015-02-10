@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-import match_utils
+from api import match_utils
+
 
 def processExperiments(matchList):
     ownGoalSum = 0

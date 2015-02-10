@@ -1,6 +1,6 @@
 # Match API Usage example
 
-import match_utils
+from api import match_utils
 
 matchList = match_utils.findMatchListInFolder("../dataset/actual/England/PL-2012-2013")
 

@@ -4,7 +4,8 @@ import copy
 import os
 import sys
 
-import match_definitions
+from api import match_definitions
+
 
 def retrieveMatchesFromArguments():
     args = list(sys.argv)

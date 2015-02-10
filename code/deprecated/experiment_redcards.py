@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import match_definitions
 import numpy as np
 import matplotlib.pyplot as plt
 
