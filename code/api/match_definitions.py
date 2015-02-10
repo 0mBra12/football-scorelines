@@ -172,7 +172,7 @@ class Side:
 
         return teamString
 
-    def getGoals(self):
+    def toGoalsString(self):
         goalString = ""
         if len(self.goalList) > 0:
             for goal in self.goalList:
@@ -214,7 +214,7 @@ class Match:
             "Shots : " + str(homeShots) + " - " + str(awayShots) + "\n" + \
             "Shots on target : " + str(self.getHomeSide().getShotsOnTarget()) + " - " +\
             str(self.getAwaySide().getShotsOnTarget()) + "\n" + "\n" \
-            "Home goals\n" + self.getHomeSide().getGoals() + "\n" \
-            "Away goals\n" + self.getAwaySide().getGoals() + "\n" \
+            "Home goals\n" + self.getHomeSide().toGoalsString() + "\n" \
+            "Away goals\n" + self.getAwaySide().toGoalsString() + "\n" \
             "Home team\n" + self.getHomeSide().toTeamString() + "\n" \
             "Away team\n" + self.getAwaySide().toTeamString()
