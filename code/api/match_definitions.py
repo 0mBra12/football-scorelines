@@ -130,7 +130,7 @@ class Substitution:
 
 class Substitute(Player):
     def __init__(self, substituteObject):
-        super(Substitute, self).__init__(substituteObject)
+        super().__init__(substituteObject)
         self.substitution = Substitution(substituteObject['replacement'])\
             if substituteObject['replacement'] is not None else None
 
@@ -207,22 +207,27 @@ class Side:
 
         return goalString
 
-class Match:
-    def __init__(self, matchPath):
-        with open(matchPath, 'r', encoding='utf-8') as matchFile:
-            matchObject = json.load(matchFile)
-
-            matchDate = matchObject['date']
-            self.eventDate = date(matchDate['year'], matchDate['month'], matchDate['day'])
-            self.sides = dict()
-            self.sides['home'] = Side(matchObject['home'])
-            self.sides['away'] = Side(matchObject['away'])
+class BaseMatch:
+    def __init__(self, eventDate):
+        self.eventDate = eventDate
 
     def getDate(self):
         return self.eventDate
 
     def getDateString(self):
         return "{:%d %b %Y}".format(self.eventDate)
+
+class Match(BaseMatch):
+    def __init__(self, matchPath):
+        with open(matchPath, 'r', encoding='utf-8') as matchFile:
+            matchObject = json.load(matchFile)
+
+            matchDate = matchObject['date']
+            super().__init__(date(matchDate['year'], matchDate['month'], matchDate['day']))
+
+            self.sides = dict()
+            self.sides['home'] = Side(matchObject['home'])
+            self.sides['away'] = Side(matchObject['away'])
 
     def getHomeSide(self) -> Side:
         return self.sides['home']

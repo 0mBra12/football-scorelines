@@ -4,68 +4,83 @@ import copy
 import os
 import sys
 
-from api import match_definitions
+from api.match_definitions import Match
+from api.match_definitions import BaseMatch
 
+class PersonalMatch(BaseMatch):
+    def __init__(self, match, teamName):
+        super().__init__(copy.deepcopy(match.getDate()))
 
-def retrieveMatchesFromArguments():
-    args = list(sys.argv)
-    args.pop(0)
-    argsCount = len(args)
+        if teamName == match.getHomeSide().getName():
+            self.personalSides["us"] = copy.deepcopy(match.getHomeSide())
+            self.personalSides["them"] = copy.deepcopy(match.getAwaySide())
+            self.atHome = True
+        elif teamName == match.getAwaySide().getName():
+            self.personalSides["us"] = copy.deepcopy(match.getAwaySide())
+            self.personalSides["them"] = copy.deepcopy(match.getHomeSide())
+            self.atHome = False
+        else:
+            raise KeyError()
 
-    if argsCount != 1:
-        raise Exception("Should provide a folder path to the script")
+    def getPersonalSide(self):
+        return self.personalSides["us"]
 
-    folderPath = args[0]
-    return findMatchListInFolder(folderPath)
+    def getOpponentSide(self):
+        return self.personalSides["them"]
 
-def findMatchListInFolder(folderPath):
-    matchList = list()
-    for root, directories, filenameList in os.walk(folderPath):
-        for file in filenameList:
-            filePath = os.path.join(root, file)
-            matchList.append(match_definitions.Match(filePath))
+    def isAtHome(self):
+        return self.atHome
 
-    return matchList
+class MatchUtils:
+    @staticmethod
+    def findMatchListInFolder(folderPath):
+        matchList = list()
+        for root, directories, filenameList in os.walk(folderPath):
+            for file in filenameList:
+                filePath = os.path.join(root, file)
+                matchList.append(Match(filePath))
 
-def printMatchSummary(matchPath):
-    print(match_definitions.Match(matchPath).toString())
+        return matchList
 
-def findTeamNames(matchList):
-    nameSet = set()
-    for match in matchList:
-        nameSet.add(match.getHomeTeamName())
-        nameSet.add(match.getAwayTeamName())
+    @staticmethod
+    def retrieveMatchesFromArguments():
+        args = list(sys.argv)
+        args.pop(0)
+        argsCount = len(args)
 
-    return nameSet
+        if argsCount != 1:
+            raise Exception("Should provide a folder path to the script")
 
-def findTeamNameToPersonalMatches(matchList):
-    teamNameSet = findTeamNames(matchList)
+        folderPath = args[0]
+        return MatchUtils.findMatchListInFolder(folderPath)
 
-    teamToGames = dict()
-    for teamName in teamNameSet:
-        teamToGames[teamName] = findPersonalMatchList(teamName, matchList)
+    @staticmethod
+    def printMatchSummary(matchPath):
+        print(Match(matchPath).toString())
 
-    return teamToGames
+    @staticmethod
+    def findTeamNames(matchList):
+        nameSet = set()
+        for match in matchList:
+            nameSet.add(match.getHomeTeamName())
+            nameSet.add(match.getAwayTeamName())
 
-def findPersonalMatchList(teamName, matchList):
-    personalMatchList = list()
-    for match in matchList:
+        return nameSet
 
-        homeTeamName = match.getHomeTeamName()
-        awayTeamName = match.getAwayTeamName()
+    @staticmethod
+    def findTeamNameToPersonalMatches(matchList):
+        teamNameSet = findTeamNames(matchList)
 
-        if homeTeamName == teamName or awayTeamName == teamName:
-            matchCopy = copy.deepcopy(match)
-            if teamName == homeTeamName:
-                team = 'home'
-                opponent = 'away'
-            else:
-                team = 'away'
-                opponent = 'home'
+        teamToGames = dict()
+        for teamName in teamNameSet:
+            teamToGames[teamName] = MatchUtils.findPersonalMatchList(matchList, teamName)
 
-            matchCopy.sides['team'] = matchCopy.sides.pop(team)
-            matchCopy.sides['opponent'] = matchCopy.sides.pop(opponent)
+        return teamToGames
 
-            personalMatchList.append(matchCopy)
+    @staticmethod
+    def findPersonalMatchList(matchList, teamName):
+        personalMatchList = list()
+        for match in matchList:
+            personalMatchList.append(PersonalMatch(match, teamName))
 
-    return personalMatchList
+        return personalMatchList
