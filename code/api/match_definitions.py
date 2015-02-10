@@ -222,7 +222,7 @@ class Match:
         return self.eventDate
 
     def getDateString(self):
-        return "%d %b %Y".format(self.eventDate)
+        return "{:%d %b %Y}".format(self.eventDate)
 
     def getHomeSide(self) -> Side:
         return self.sides['home']
@@ -240,7 +240,6 @@ class Match:
         awayShots = self.getAwaySide().getShotsWide() + self.getAwaySide().getShotsOnTarget()
 
         return self.toShortString() + "\n" + \
-            "Date : " + self.getDateString() + "\n" + \
             "Shots : " + str(homeShots) + " - " + str(awayShots) + "\n" + \
             "Shots on target : " + str(self.getHomeSide().getShotsOnTarget()) + " - " +\
             str(self.getAwaySide().getShotsOnTarget()) + "\n" + "\n" \
