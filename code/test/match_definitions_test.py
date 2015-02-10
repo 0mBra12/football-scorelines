@@ -9,7 +9,7 @@ from api.match_definitions import GoalType
 class MatchDefinitionTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.match = Match("../dataset/test/2014-2-2-Arsenal-Crystal_Palace.json")
+        cls.match = Match("../../dataset/test/2014-2-2-Arsenal-Crystal_Palace.json")
         cls.homeSide = cls.match.getHomeSide()
 
     def testBasicInformation(self):
