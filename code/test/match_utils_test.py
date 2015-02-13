@@ -38,13 +38,13 @@ class MatchUtilsTestCase(unittest.TestCase):
         MatchUtilsTestCase.verifySpursFixtures(self, spursMatchList)
 
     def testFindTeamFixtures(self):
-        teamToMatchList = MatchUtils.findAllPersonalFixtures(self.matchList)
+        teamToFixtures = MatchUtils.findAllPersonalFixtures(self.matchList)
 
-        arsenalMatchList = teamToMatchList["Arsenal"]
+        arsenalMatchList = teamToFixtures["Arsenal"]
         MatchUtilsTestCase.verifyArsenalFixtures(self, arsenalMatchList)
         self.assertEquals(arsenalMatchList[0].isAtHome(), True)
 
-        spursMatchList = teamToMatchList["Tottenham Hotspur"]
+        spursMatchList = teamToFixtures["Tottenham Hotspur"]
         MatchUtilsTestCase.verifySpursFixtures(self, spursMatchList)
         self.assertEquals(spursMatchList[0].isAtHome(), False)
 

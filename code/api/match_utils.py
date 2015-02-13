@@ -81,8 +81,8 @@ class MatchUtils:
     def findAllPersonalFixtures(matchList):
         teamNameSet = MatchUtils._findTeamNames(matchList)
 
-        teamToGames = dict()
+        teamToFixtures = dict()
         for teamName in teamNameSet:
-            teamToGames[teamName] = MatchUtils._findPersonalFixtures(matchList, teamName)
+            teamToFixtures[teamName] = MatchUtils._findPersonalFixtures(matchList, teamName)
 
-        return teamToGames
+        return teamToFixtures
