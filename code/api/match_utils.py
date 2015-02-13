@@ -11,6 +11,7 @@ class PersonalMatch(BaseMatch):
     def __init__(self, match, teamName):
         super().__init__(copy.deepcopy(match.getDate()))
 
+        self.personalSides = dict()
         if teamName == match.getHomeSide().getName():
             self.personalSides["us"] = copy.deepcopy(match.getHomeSide())
             self.personalSides["them"] = copy.deepcopy(match.getAwaySide())
@@ -59,7 +60,7 @@ class MatchUtils:
         print(Match(matchPath).toString())
 
     @staticmethod
-    def findTeamNames(matchList):
+    def _findTeamNames(matchList):
         nameSet = set()
         for match in matchList:
             nameSet.add(match.getHomeTeamName())
@@ -68,19 +69,20 @@ class MatchUtils:
         return nameSet
 
     @staticmethod
+    def _findPersonalMatchList(matchList, teamName):
+        personalMatchList = list()
+        for match in matchList:
+            if match.getHomeSide().getName() == teamName or match.getAwaySide().getName() == teamName:
+                personalMatchList.append(PersonalMatch(match, teamName))
+        personalMatchList.sort(key = lambda match: match.getDate())
+        return personalMatchList
+
+    @staticmethod
     def findTeamNameToPersonalMatches(matchList):
-        teamNameSet = findTeamNames(matchList)
+        teamNameSet = MatchUtils._findTeamNames(matchList)
 
         teamToGames = dict()
         for teamName in teamNameSet:
-            teamToGames[teamName] = MatchUtils.findPersonalMatchList(matchList, teamName)
+            teamToGames[teamName] = MatchUtils._findPersonalMatchList(matchList, teamName)
 
         return teamToGames
-
-    @staticmethod
-    def findPersonalMatchList(matchList, teamName):
-        personalMatchList = list()
-        for match in matchList:
-            personalMatchList.append(PersonalMatch(match, teamName))
-
-        return personalMatchList
