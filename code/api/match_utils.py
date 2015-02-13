@@ -39,8 +39,11 @@ class MatchUtils:
         for root, directories, filenameList in os.walk(folderPath):
             for file in filenameList:
                 filePath = os.path.join(root, file)
-                matchList.append(Match(filePath))
-
+                extension = os.path.splitext(filePath)[1]
+                if extension == ".json":
+                    matchList.append(Match(filePath))
+                else:
+                    print("Ignored : " + filePath)
         return matchList
 
     @staticmethod
