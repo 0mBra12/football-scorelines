@@ -15,18 +15,38 @@ class MatchUtilsTestCase(unittest.TestCase):
         cls.westHamSpurs = [match for match in cls.matchList if (match.getHomeSide().getName() == "West Ham United"
                                and match.getAwaySide().getName() == "Tottenham Hotspur")][0]
 
+    @staticmethod
+    def verifyArsenalFixtures(testCase, arsenalMatchList):
+        testCase.assertEquals(len(arsenalMatchList), 2)
+        testCase.assertEquals(arsenalMatchList[0].getDate(), testCase.arsenalPalace.getDate())
+        testCase.assertEquals(arsenalMatchList[1].getDate(), testCase.norwichArsenal.getDate())
+
+    @staticmethod
+    def verifySpursFixtures(testCase, spursMatchList):
+        testCase.assertEquals(len(spursMatchList), 1)
+        testCase.assertEquals(spursMatchList[0].getDate(), testCase.westHamSpurs.getDate())
+
     def testListCreation(self):
         self.assertEquals(len(self.matchList), 3)
 
     def testFindPersonalMatchList(self):
-        arsenalMatchList = MatchUtils._findPersonalMatchList(self.matchList, "Arsenal")
-        self.assertEquals(len(arsenalMatchList), 2)
-        self.assertEquals(arsenalMatchList[0].getDate(), self.arsenalPalace.getDate())
-        self.assertEquals(arsenalMatchList[1].getDate(), self.norwichArsenal.getDate())
+        # This test assumes the three premier league matches can be uniquely identified by date
+        arsenalMatchList = MatchUtils._findPersonalFixtures(self.matchList, "Arsenal")
+        MatchUtilsTestCase.verifyArsenalFixtures(self, arsenalMatchList)
 
-        spursMatchList = MatchUtils._findPersonalMatchList(self.matchList, "Tottenham Hotspur")
-        self.assertEquals(len(spursMatchList), 1)
-        self.assertEquals(spursMatchList[0].getDate(), self.westHamSpurs.getDate())
+        spursMatchList = MatchUtils._findPersonalFixtures(self.matchList, "Tottenham Hotspur")
+        MatchUtilsTestCase.verifySpursFixtures(self, spursMatchList)
+
+    def testFindTeamFixtures(self):
+        teamToMatchList = MatchUtils.findAllPersonalFixtures(self.matchList)
+
+        arsenalMatchList = teamToMatchList["Arsenal"]
+        MatchUtilsTestCase.verifyArsenalFixtures(self, arsenalMatchList)
+        self.assertEquals(arsenalMatchList[0].isAtHome(), True)
+
+        spursMatchList = teamToMatchList["Tottenham Hotspur"]
+        MatchUtilsTestCase.verifySpursFixtures(self, spursMatchList)
+        self.assertEquals(spursMatchList[0].isAtHome(), False)
 
 if __name__ == '__main__':
     unittest.main()

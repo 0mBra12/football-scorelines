@@ -63,13 +63,13 @@ class MatchUtils:
     def _findTeamNames(matchList):
         nameSet = set()
         for match in matchList:
-            nameSet.add(match.getHomeTeamName())
-            nameSet.add(match.getAwayTeamName())
+            nameSet.add(match.getHomeSide().getName())
+            nameSet.add(match.getAwaySide().getName())
 
         return nameSet
 
     @staticmethod
-    def _findPersonalMatchList(matchList, teamName):
+    def _findPersonalFixtures(matchList, teamName):
         personalMatchList = list()
         for match in matchList:
             if match.getHomeSide().getName() == teamName or match.getAwaySide().getName() == teamName:
@@ -78,11 +78,11 @@ class MatchUtils:
         return personalMatchList
 
     @staticmethod
-    def findTeamNameToPersonalMatches(matchList):
+    def findAllPersonalFixtures(matchList):
         teamNameSet = MatchUtils._findTeamNames(matchList)
 
         teamToGames = dict()
         for teamName in teamNameSet:
-            teamToGames[teamName] = MatchUtils._findPersonalMatchList(matchList, teamName)
+            teamToGames[teamName] = MatchUtils._findPersonalFixtures(matchList, teamName)
 
         return teamToGames
