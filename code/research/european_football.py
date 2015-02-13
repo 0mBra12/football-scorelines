@@ -10,5 +10,5 @@ englishFolderList = ["../../dataset/actual/England/PL-2013-2014",
                       "../../dataset/actual/England/PL-2008-2009",
                       "../../dataset/actual/England/PL-2007-2008"]
 
-englishMatchList = matchList = MatchUtils.findMatchListInFolders(englishFolderList)
+englishMatchList = MatchUtils.findMatchListInFolders(englishFolderList)
 
