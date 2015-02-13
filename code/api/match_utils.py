@@ -11,26 +11,26 @@ class PersonalMatch(BaseMatch):
     def __init__(self, match, teamName):
         super().__init__(copy.deepcopy(match.getDate()))
 
-        self.personalSides = dict()
+        self._personalSides = dict()
         if teamName == match.getHomeSide().getName():
-            self.personalSides["us"] = copy.deepcopy(match.getHomeSide())
-            self.personalSides["them"] = copy.deepcopy(match.getAwaySide())
-            self.atHome = True
+            self._personalSides["us"] = copy.deepcopy(match.getHomeSide())
+            self._personalSides["them"] = copy.deepcopy(match.getAwaySide())
+            self._atHome = True
         elif teamName == match.getAwaySide().getName():
-            self.personalSides["us"] = copy.deepcopy(match.getAwaySide())
-            self.personalSides["them"] = copy.deepcopy(match.getHomeSide())
-            self.atHome = False
+            self._personalSides["us"] = copy.deepcopy(match.getAwaySide())
+            self._personalSides["them"] = copy.deepcopy(match.getHomeSide())
+            self._atHome = False
         else:
             raise KeyError()
 
     def getPersonalSide(self):
-        return self.personalSides["us"]
+        return self._personalSides["us"]
 
     def getOpponentSide(self):
-        return self.personalSides["them"]
+        return self._personalSides["them"]
 
     def isAtHome(self):
-        return self.atHome
+        return self._atHome
 
 class MatchUtils:
     @staticmethod
