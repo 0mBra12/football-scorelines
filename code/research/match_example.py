@@ -2,7 +2,7 @@
 
 from api.match_utils import MatchUtils
 
-matchList = MatchUtils.findMatchListInFolder("../../dataset/actual/England/PL-2012-2013")
+matchList = MatchUtils.findMatchListInFolders(["../../dataset/actual/England/PL-2012-2013"])
 
 goalSum = 0
 for match in matchList:

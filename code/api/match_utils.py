@@ -34,12 +34,20 @@ class PersonalMatch(BaseMatch):
 
 class MatchUtils:
     @staticmethod
-    def findMatchListInFolder(folderPath):
+    def _findMatchListInFolder(folderPath):
         matchList = list()
         for root, directories, filenameList in os.walk(folderPath):
             for file in filenameList:
                 filePath = os.path.join(root, file)
                 matchList.append(Match(filePath))
+
+        return matchList
+
+    @staticmethod
+    def findMatchListInFolders(folderPathList):
+        matchList = list()
+        for folderPath in folderPathList:
+            matchList.extend(MatchUtils._findMatchListInFolder(folderPath))
 
         return matchList
 
@@ -53,7 +61,7 @@ class MatchUtils:
             raise Exception("Should provide a folder path to the script")
 
         folderPath = args[0]
-        return MatchUtils.findMatchListInFolder(folderPath)
+        return MatchUtils._findMatchListInFolder(folderPath)
 
     @staticmethod
     def printMatchSummary(matchPath):

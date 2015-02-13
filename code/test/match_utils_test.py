@@ -7,7 +7,7 @@ from api.match_utils import MatchUtils
 class MatchUtilsTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.matchList = MatchUtils.findMatchListInFolder("../../dataset/test")
+        cls.matchList = MatchUtils._findMatchListInFolder("../../dataset/test")
         cls.arsenalPalace = [match for match in cls.matchList if (match.getHomeSide().getName() == "Arsenal"
                                and match.getAwaySide().getName() == "Crystal Palace")][0]
         cls.norwichArsenal = [match for match in cls.matchList if (match.getHomeSide().getName() == "Norwich City"
