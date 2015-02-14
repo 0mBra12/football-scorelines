@@ -36,43 +36,107 @@ def printMostCommonScorelines(scoreToFrequency, limitCount):
                  key=lambda scoreFrequencyPair: scoreFrequencyPair[1],
                  reverse=True)[:limitCount])
 
-def plotFrequencyGraph(scoreToFrequency):
-    maxGoals = findMaxGoals(scoreToFrequency)
-    frequencyMatrix = convertFrequencyMapToMatrix(scoreToFrequency, maxGoals)
-
-    # http://matplotlib.org/users/colormaps.html
-    # summer, afmhot, hot
-    pyplot.matshow(frequencyMatrix, cmap=pyplot.cm.summer, interpolation="nearest")
-    pyplot.xlabel("Away")
-    pyplot.ylabel("Home")
-    pyplot.title('Scoreline frequency')
-    pyplot.xticks(numpy.arange(0, maxGoals + 1, 1))
-    pyplot.yticks(numpy.arange(0, maxGoals + 1, 1))
-    pyplot.show()
-
 def findCroppedScoreToFrequency(scoreToFrequency, maxGoals):
     return { score: frequency for (score, frequency) in scoreToFrequency.items()
              if max(score) <= maxGoals }
 
-def workEnglishScorelines():
-    latestEnglishSeason = ["../../dataset/actual/England/PL-2013-2014"]
+def plotScorelineFrequencyGraph(name, matchList):
+    maxGoals = 5
+    scoreToFrequency = findCroppedScoreToFrequency(findScoreToFrequency(matchList), maxGoals)
+    frequencyMatrix = convertFrequencyMapToMatrix(scoreToFrequency, maxGoals)
 
-    englishFolderList = ["../../dataset/actual/England/PL-2013-2014",
-                          "../../dataset/actual/England/PL-2012-2013",
-                          "../../dataset/actual/England/PL-2011-2012",
-                          "../../dataset/actual/England/PL-2010-2011",
-                          "../../dataset/actual/England/PL-2009-2010",
-                          "../../dataset/actual/England/PL-2008-2009",
-                          "../../dataset/actual/England/PL-2007-2008"]
+    # http://matplotlib.org/users/colormaps.html
+    # summer, afmhot, hot
+    pyplot.figure()
+    pyplot.matshow(frequencyMatrix, cmap=pyplot.cm.summer, interpolation="nearest")
+    for (i, j), z in numpy.ndenumerate(frequencyMatrix):
+        pyplot.text(j, i, '{:0.3f}'.format(z), ha='center', va='center')
+    pyplot.xlabel("Away")
+    pyplot.ylabel("Home")
+    pyplot.xticks(numpy.arange(0, maxGoals + 1, 1))
+    pyplot.yticks(numpy.arange(0, maxGoals + 1, 1))
+    pyplot.title("Scorelines frequencies of " + name + " top division")
+    pyplot.savefig("scorelinesFrequencies_" + name + ".png")
 
-    matchList = MatchUtils.findMatchListInFolders(englishFolderList)
-    scoreToFrequency = findScoreToFrequency(matchList)
-    plotFrequencyGraph(findCroppedScoreToFrequency(scoreToFrequency, 5))
-    #printMostCommonScorelines(findScoreToFrequency(matchList, 5))
+def findResultFrequency(matchList):
+    homeWinString = "Home win"
+    drawString = "Draw"
+    awayWinString = "Away win"
 
-def workAllScorelines():
-    allMatchesList = ["../../dataset/actual"]
-    scoreToFrequency = findScoreToFrequency(MatchUtils.findMatchListInFolders(allMatchesList))
-    plotFrequencyGraph(findCroppedScoreToFrequency(scoreToFrequency, 3))
+    resultToOccurrences = {
+        homeWinString: 0,
+        drawString: 0,
+        awayWinString: 0
+    }
+    for match in matchList:
+        homeGoals = match.getHomeSide().getFullTimeGoals()
+        awayGoals = match.getAwaySide().getFullTimeGoals()
+        if homeGoals > awayGoals:
+            result = homeWinString
+        elif homeGoals < awayGoals:
+            result = drawString
+        else:
+            result = awayWinString
+        resultToOccurrences[result] += 1
 
-workAllScorelines()
+    totalOccurrences = sum(resultToOccurrences.values())
+    assert totalOccurrences > 0
+
+    resultToFrequency = dict()
+    for result, occurrenceCount in resultToOccurrences.items():
+        resultToFrequency[result] = occurrenceCount / totalOccurrences
+
+    return resultToFrequency
+
+def plotResultsFrequencyPie(name, matchList):
+    resultToFrequency = findResultFrequency(matchList)
+    resultFrequencyPairList = sorted(resultToFrequency.items(),
+                                     key=lambda resultFrequencyPair: resultFrequencyPair[0])
+
+    pieLabels = [ resultFrequencyPair[0] for resultFrequencyPair in resultFrequencyPairList ]
+    pieSizes = [ resultFrequencyPair[1] for resultFrequencyPair in resultFrequencyPairList ]
+    pieColors = [ "blue", "red", "green" ]
+    pyplot.figure()
+    pyplot.pie(pieSizes, colors=pieColors, labels=pieLabels, autopct="%1.1f%%", startangle=90)
+    pyplot.axis("equal")
+    pyplot.title("Results frequencies of " + name + " top division")
+    pyplot.savefig("resultsFrequencies_" + name + ".png")
+
+def work():
+    countryToFolder = {
+        "English": ["../../dataset/actual/England"],
+        "French": ["../../dataset/actual/France"],
+        "Italian": ["../../dataset/actual/Italy"],
+        "Spanish": ["../../dataset/actual/Spain"],
+        "German": ["../../dataset/actual/Germany"]
+    }
+
+    countryToMatchList = {
+        country: MatchUtils.findMatchListInFolders(folder)
+        for (country, folder)
+        in countryToFolder.items()
+    }
+
+    for country, matchList in countryToMatchList.items():
+        plotResultsFrequencyPie(country, matchList)
+        plotScorelineFrequencyGraph(country, matchList)
+
+# Bonus, for French fans
+def workZeroDraws():
+    countryToFolder = {
+        "England": ["../../dataset/actual/England"],
+        "France": ["../../dataset/actual/France"],
+        "Italy": ["../../dataset/actual/Italy"],
+        "Spain": ["../../dataset/actual/Spain"],
+        "Germany": ["../../dataset/actual/Germany"]
+    }
+
+    countryToZeroDrawFrequency = dict()
+    for country, folder in countryToFolder.items():
+        countryMatches = MatchUtils.findMatchListInFolders(folder)
+        zeroScore = 0, 0
+        countryToZeroDrawFrequency[country] = findScoreToFrequency(countryMatches)[zeroScore]
+
+    print(countryToZeroDrawFrequency)
+
+work()
