@@ -41,7 +41,7 @@ def findCroppedScoreToFrequency(scoreToFrequency, maxGoals):
              if max(score) <= maxGoals }
 
 def plotScorelineFrequencyGraph(name, matchList):
-    maxGoals = 5
+    maxGoals = 8
     scoreToFrequency = findCroppedScoreToFrequency(findScoreToFrequency(matchList), maxGoals)
     frequencyMatrix = convertFrequencyMapToMatrix(scoreToFrequency, maxGoals)
 
@@ -50,13 +50,13 @@ def plotScorelineFrequencyGraph(name, matchList):
     pyplot.figure()
     pyplot.matshow(frequencyMatrix, cmap=pyplot.cm.summer, interpolation="nearest")
     for (i, j), z in numpy.ndenumerate(frequencyMatrix):
-        pyplot.text(j, i, '{:0.3f}'.format(z), ha='center', va='center')
+        pyplot.text(j, i, '{:0.3f}'.format(z), ha='center', va='center', size="x-small")
     pyplot.xlabel("Away")
     pyplot.ylabel("Home")
     pyplot.xticks(numpy.arange(0, maxGoals + 1, 1))
     pyplot.yticks(numpy.arange(0, maxGoals + 1, 1))
     pyplot.title("Scorelines frequencies of " + name + " top division")
-    pyplot.savefig("scorelinesFrequencies_" + name + ".png")
+    pyplot.savefig("scorelinesFrequencies_" + name + ".png", dpi=300)
 
 def findResultFrequency(matchList):
     homeWinString = "Home win"
@@ -97,10 +97,15 @@ def plotResultsFrequencyPie(name, matchList):
     pieSizes = [ resultFrequencyPair[1] for resultFrequencyPair in resultFrequencyPairList ]
     pieColors = [ "blue", "red", "green" ]
     pyplot.figure()
-    pyplot.pie(pieSizes, colors=pieColors, labels=pieLabels, autopct="%1.1f%%", startangle=90)
+    patches, textList, autoTextList = pyplot.pie(pieSizes, colors=pieColors, labels=pieLabels,
+                                                 autopct="%1.1f%%", startangle=90)
+    for text in textList:
+        text.set_size("x-large")
+    for text in autoTextList:
+        text.set_size("xx-large")
     pyplot.axis("equal")
     pyplot.title("Results frequencies of " + name + " top division")
-    pyplot.savefig("resultsFrequencies_" + name + ".png")
+    pyplot.savefig("resultsFrequencies_" + name + ".png", dpi=200)
 
 def work():
     countryToFolder = {
@@ -139,4 +144,13 @@ def workZeroDraws():
 
     print(countryToZeroDrawFrequency)
 
-work()
+def test():
+    matchList = MatchUtils.findMatchListInFolders(["../../dataset/actual/France"])
+    [
+      print(match.toShortString())
+      for match in matchList
+      if match.getHomeSide().getFullTimeGoals() == 5
+      and match.getAwaySide().getFullTimeGoals() == 3
+    ]
+
+test()
